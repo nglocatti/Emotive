@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Search</title>
+</head>
+<body>
+    <h1>Asset Search</h1>
+    <form method="GET" action="{% url 'asset_search' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </form>
+
+    {% if json_data %}
+        <h2>First API Results</h2>
+        <pre>{{ json_data|safe }}</pre>
+    {% endif %}
+
+    {% if second_data %}
+        <h2>Second API Results</h2>
+        <table border="1">
+            <tr>
+                <th>Ticker</th>
+                <th>Name</th>
+                <th>Market</th>
+                <th>Locale</th>
+                <th>Primary Exchange</th>
+                <th>Type</th>
+                <th>Active</th>
+                <th>Currency Name</th>
+                <th>CIK</th>
+            </tr>
+            <tr>
+                <td>{{ second_data.results.ticker }}</td>
+                <td>{{ second_data.results.name }}</td>
+                <td>{{ second_data.results.market }}</td>
+                <td>{{ second_data.results.locale }}</td>
+                <td>{{ second_data.results.primary_exchange }}</td>
+                <td>{{ second_data.results.type }}</td>
+                <td>{{ second_data.results.active }}</td>
+                <td>{{ second_data.results.currency_name }}</td>
+                <td>{{ second_data.results.cik }}</td>
+            </tr>
+        </table>
+    {% endif %}
+    {% if error_message %}
+        <p>Error: {{ error_message }}</p>
+    {% endif %}
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+    
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+    
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Symbol</th>
+                <th>Type</th>
+                <th>Last Updated</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>Description</th>
+                <th>Homepage URL</th>
+                <th>Icon URL</th>
+                <th>List Date</th>
+                <th>Logo URL</th>
+                <th>Market Cap</th>
+                <th>Phone Number</th>
+                <th>Postal Code</th>
+                <th>Round Lot</th>
+                <th>Share Class Shares Outstanding</th>
+                <th>SIC Code</th>
+                <th>SIC Description</th>
+                <th>State</th>
+                <th>Ticker Root</th>
+                <th>Total Employees</th>
+                <th>Weighted Shares Outstanding</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for asset in assets %}
+            <tr>
+                <td>{{ asset.name }}</td>
+                <td>{{ asset.symbol }}</td>
+                <td>{{ asset.type }}</td>
+                <td>{{ asset.last_updated }}</td>
+                <td>{{ asset.address1 }}</td>
+                <td>{{ asset.city }}</td>
+                <td>{{ asset.description }}</td>
+                <td>{{ asset.homepage_url }}</td>
+                <td>{{ asset.icon_url }}</td>
+                <td>{{ asset.list_date }}</td>
+                <td>{{ asset.logo_url }}</td>
+                <td>{{ asset.market_cap }}</td>
+                <td>{{ asset.phone_number }}</td>
+                <td>{{ asset.postal_code }}</td>
+                <td>{{ asset.round_lot }}</td>
+                <td>{{ asset.share_class_shares_outstanding }}</td>
+                <td>{{ asset.sic_code }}</td>
+                <td>{{ asset.sic_description }}</td>
+                <td>{{ asset.state }}</td>
+                <td>{{ asset.ticker_root }}</td>
+                <td>{{ asset.total_employees }}</td>
+                <td>{{ asset.weighted_shares_outstanding }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+</body>
+</html>
